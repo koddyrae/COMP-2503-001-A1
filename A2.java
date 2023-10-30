@@ -13,44 +13,25 @@ public class A1 {
     private static int totalWords = 0;
     private static ArrayList<Token> tokens = new ArrayList<>();
 
-    // NOTE: now that I've learned the lambda syntax, use that next time.
-    private static Comparator<Token> MostFrequentEnglishWords = new Comparator<>() {
-        @Override
-        public int compare(Token tokenOne, Token tokenTwo) {
-            int difference = tokenOne.getCount() - tokenTwo.getCount();
-            if (difference == 0) {
-                return tokenOne.compareTo(tokenTwo);
-            } else {
-                /*
-                 * Because more frequent words should be sorted /before/ less
-                 * frequent words, the difference should be negative. A word
-                 * with a higher frequency will return a positive difference, so
-                 * to be sorted first the magnitude needs to be inverted.
-                 */
-                return -difference;
-            }
-        }
-    };
+    // This comparitor will cause Collections.Sort to sort less frequent words first.
+    private static Comparator<Token> LeastFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
+        int difference = tokenOne.getCount() - tokenTwo.getCount();
+        return ((difference == 0) token.compareTwo(tokenTwo) : difference);
+    }; // End of assigned lambda expression.
 
-    private static Comparator<Token> LeastFrequentEnglishWords = new Comparator<>() {
-        @Override
-        public int compare(Token tokenOne, Token tokenTwo) {
-            int difference = tokenOne.getCount() - tokenTwo.getCount();
-            if (difference == 0) {
-                return tokenOne.compareTo(tokenTwo);
-            } else {
-                /*
-                 * Words with a higher frequency will return a positive
-                 * difference and be sorted after less frequent, so no change to
-                 * the difference variable's value before returning it is
-                 * necessary, as it was for the MostFrequentEnglishWords
-                 * comparator.
-                 */
-                return difference;
-            }
-        }
-    };
+    // This comparitor will cause Collections.Sort to sort more frequent words first.
+    /**
+     * Because more frequent words should be sorted /before/ less
+     * frequent words, the difference should be negative. A word
+     * with a higher frequency will return a positive difference, so
+     * to be sorted first the magnitude needs to be inverted.
+     */
+    private static Comparator<Token> MostFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
+        int difference = tokenOne.getCount() - tokenTwo.getCount();
+        return ((difference == 0) tokenOne.compareTo(tokenTwo) : -difference);
+    }; // End of assigned lambda expression.
 
+    // "Stop Words" provided by the intstructor.
     private static final String[] stopWords = {
             "a",     "about", "all",   "am",
             "an",    "and",   "any",   "are",
@@ -78,7 +59,10 @@ public class A1 {
     };
 
     public static void main(String[] args) {
+        // Initialize totalWords, Token.countUniqueWords, and countStopWords.
         new A1();
+
+        // Generate a printed listing following this format.
         /*
          * Total Words: #words
          * Unique Words: #words
@@ -90,47 +74,37 @@ public class A1 {
          * 10 Least Frequent
          * word2 : #frequency
          *
-         *
          * All
+         * word1 : #frequency
          * word2 : #frequency
+         * word3 : #frequency
+         *       …
+         * wordn : #frequency
          */
         System.out.println("Total Words: " + totalWords);
         System.out.println("Unique Words: " + Token.countUniqueWords);
         System.out.println("Stop Words: " + countStopWords);
 
+        // If there were any tokens.
         if (tokens.size() > 0) {
-            System.out.println();
-            System.out.println("10 Most Frequent");
+            System.out.println("\n10 Most Frequent");
             Collections.sort(tokens, MostFrequentEnglishWords);
             for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                if (tokens.get(i) != null) {
-                    System.out.println(tokens.get(i).toString() + " : " + tokens.get(i).getCount());
-                } else {
-                    break;
-                }
+                Token t = tokens.get(i); // Defensive
+                (t != null) ? System.out.println(t + " : " + t.getCount()) : break;
             }
 
-            System.out.println();
-            System.out.println("10 Least Frequent");
+            System.out.println("\n10 Least Frequent");
             Collections.sort(tokens, LeastFrequentEnglishWords);
             for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                if (tokens.get(i) != null) {
-                    System.out.println(tokens.get(i).toString() + " : " + tokens.get(i).getCount());
-                } else {
-                    break;
-                }
+                Token t = tokens.get(i); // Defensive
+                (t != null) ? System.out.println(t + " : " + t.getCount()) : break;
             }
 
-            System.out.println();
-            System.out.println("All");
+            // Sort whatever tokens exist alphabetically and print each with its count.
+            System.out.println("\nAll");
             Collections.sort(tokens);
-            for (Token token : tokens) {
-                if (token != null) {
-                    System.out.println(token + " : " + token.getCount());
-                } else {
-                    break;
-                }
-            }
+            for (Token t : tokens) (t != null) ? System.out.println(t + " : " + t.getCount()) : break;
         }
     }
 
@@ -246,7 +220,7 @@ public class A1 {
          */
         @Override
         public int compareTo(Token t) {
-            return this.toString().compareTo(t.toString());
+            return this.str.compareTo(t.toString());
         }
 
         @Override
