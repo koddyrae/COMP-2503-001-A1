@@ -1,22 +1,23 @@
-package ca.cyberscientist;
-
 import java.util.Scanner;
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
+
+import ca.cyberscientist.SLL;
 
 /**
  * @author Bryce Carson
  */
-public class A1 {
-    private static int countStopWords = 0;
+public class A2 {
+    // FIELDS
+    private static int countOfStopWords = 0;
     private static int totalWords = 0;
-    private static ArrayList<Token> tokens = new ArrayList<>();
+    private static SLL<Token> tokens = new SLL<>();
 
     // This comparitor will cause Collections.Sort to sort less frequent words first.
     private static Comparator<Token> LeastFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
         int difference = tokenOne.getCount() - tokenTwo.getCount();
-        return ((difference == 0) token.compareTwo(tokenTwo) : difference);
+        return ((difference == 0) ? token.compareTwo(tokenTwo) : difference);
     }; // End of assigned lambda expression.
 
     // This comparitor will cause Collections.Sort to sort more frequent words first.
@@ -28,7 +29,7 @@ public class A1 {
      */
     private static Comparator<Token> MostFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
         int difference = tokenOne.getCount() - tokenTwo.getCount();
-        return ((difference == 0) tokenOne.compareTo(tokenTwo) : -difference);
+        return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : -difference);
     }; // End of assigned lambda expression.
 
     // "Stop Words" provided by the intstructor.
@@ -58,56 +59,7 @@ public class A1 {
             "your"
     };
 
-    public static void main(String[] args) {
-        // Initialize totalWords, Token.countUniqueWords, and countStopWords.
-        new A1();
-
-        // Generate a printed listing following this format.
-        /*
-         * Total Words: #words
-         * Unique Words: #words
-         * Stop Words: #words
-         *
-         * 10 Most Frequent
-         * word1 : #frequency
-         *
-         * 10 Least Frequent
-         * word2 : #frequency
-         *
-         * All
-         * word1 : #frequency
-         * word2 : #frequency
-         * word3 : #frequency
-         *       …
-         * wordn : #frequency
-         */
-        System.out.println("Total Words: " + totalWords);
-        System.out.println("Unique Words: " + Token.countUniqueWords);
-        System.out.println("Stop Words: " + countStopWords);
-
-        // If there were any tokens.
-        if (tokens.size() > 0) {
-            System.out.println("\n10 Most Frequent");
-            Collections.sort(tokens, MostFrequentEnglishWords);
-            for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                Token t = tokens.get(i); // Defensive
-                (t != null) ? System.out.println(t + " : " + t.getCount()) : break;
-            }
-
-            System.out.println("\n10 Least Frequent");
-            Collections.sort(tokens, LeastFrequentEnglishWords);
-            for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                Token t = tokens.get(i); // Defensive
-                (t != null) ? System.out.println(t + " : " + t.getCount()) : break;
-            }
-
-            // Sort whatever tokens exist alphabetically and print each with its count.
-            System.out.println("\nAll");
-            Collections.sort(tokens);
-            for (Token t : tokens) (t != null) ? System.out.println(t + " : " + t.getCount()) : break;
-        }
-    }
-
+    // METHODS
     public A1() {
         Scanner s = new Scanner(System.in);
 
@@ -124,7 +76,7 @@ public class A1 {
 
             for (String stopWord : stopWords) {
                 if (stopWord.equals(maybeNewWord)) {
-                    ++countStopWords;
+                    ++countOfStopWords;
                     continue Tokenize;
                 }
             }
@@ -136,7 +88,7 @@ public class A1 {
              * determine if they are already present or not.
              */
             if (tokens.size() == 0) {
-                tokens.add(new Token(maybeNewWord));
+                tokens.addInOrder(new Token(maybeNewWord));
                 continue Tokenize;
             }
 
@@ -164,68 +116,53 @@ public class A1 {
             }
 
             // Finally, if we should add the word to the dictionary we do so.
-            tokens.add(new Token(maybeNewWord));
+            tokens.addInOrder(new Token(maybeNewWord));
         }
     }
 
-    public class Token implements Comparable<Token> {
+    public static void main(String[] args) {
+        // Initialize totalWords, Token.countUniqueWords, and countOfStopWords.
+        new A2();
 
+        // Generate a printed listing following this format.
         /*
-         * Shared across all token objects; belongs to the class, not the
-         * instance.
+         * Total Words: #words
+         * Unique Words: #words
+         * Stop Words: #words
+         *
+         * 10 Most Frequent
+         * word1 : #frequency
+         *
+         * 10 Least Frequent
+         * word2 : #frequency
+         *
+         * All
+         * word1 : #frequency
+         * word2 : #frequency
+         * word3 : #frequency
+         *       …
+         * wordn : #frequency
          */
-        private static int countUniqueWords = 0;
+        System.out.println("Total Words: " + totalWords);
+        System.out.println("Unique Words: " + Token.countUniqueWords);
+        System.out.println("Stop Words: " + countOfStopWords);
 
-        private int count = 1;
-        private String str;
-
-        public Token(String s) {
-            ++countUniqueWords;
-            this.str = s;
-        }
-
-        public int getCount() {
-            return this.count;
-        }
-
-        public void incrementCount() {
-            ++this.count;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            /*
-             * A non-empty, non-null, unequal String object should return false.
-             * Default false
-             */
-            if (obj == null) {
-                return false;
-            } else if (this == obj) {
-                /*
-                 * Reflexive x.equals(x) := true; ie, an object is equal to
-                 * itself.
-                 */
-                return true;
-            } else if (this.toString().equals(obj.toString())) {
-                // Content comparison := aString.equals(anotherString).
-                return true;
-            } else {
-                return false;
+        if (tokens.size() > 0) {
+            System.out.println("\n10 Most Frequent");
+            Collections.sort(tokens, MostFrequentEnglishWords);
+            for (int i = 0; i < 10 && i < tokens.size(); i++) {
+                Token t = tokens.get(i); System.out.println(t + " : " + t.getCount());
             }
-        }
 
-        /*
-         * Tokens are not very special, so a standard String comparison is
-         * sufficient. Call the String compareTo method.
-         */
-        @Override
-        public int compareTo(Token t) {
-            return this.str.compareTo(t.toString());
-        }
+            System.out.println("\n10 Least Frequent");
+            Collections.sort(tokens, LeastFrequentEnglishWords);
+            for (int i = 0; i < 10 && i < tokens.size(); i++) {
+                Token t = tokens.get(i); System.out.println(t + " : " + t.getCount());
+            }
 
-        @Override
-        public String toString() {
-            return this.str;
+            System.out.println("\nAll");
+            Collections.sort(tokens); // Natural sort
+            for (Token t : tokens) System.out.println(t + " : " + t.getCount());
         }
     }
 }
