@@ -1,9 +1,6 @@
 import java.util.Scanner;
-// import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
-
-import ca.cyberscientist.SLL;
 
 /**
  * @author Bryce Carson
@@ -17,7 +14,7 @@ public class A2 {
     // This comparitor will cause Collections.Sort to sort less frequent words first.
     private static Comparator<Token> LeastFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
         int difference = tokenOne.getCount() - tokenTwo.getCount();
-        return ((difference == 0) ? token.compareTwo(tokenTwo) : difference);
+        return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : difference);
     }; // End of assigned lambda expression.
 
     // This comparitor will cause Collections.Sort to sort more frequent words first.
@@ -60,7 +57,7 @@ public class A2 {
     };
 
     // METHODS
-    public A1() {
+    public A2() {
         Scanner s = new Scanner(System.in);
 
         Tokenize: while (s.hasNext()) {
@@ -98,7 +95,7 @@ public class A2 {
              * dictionary.
              */
             for (int i = 0; i < tokens.size(); i++) {
-                Token existingToken = tokens.get(i);
+                Token existingToken = tokens.get(i).getData();
 
                 /*
                  * In the event that we encounter an existing token equivalent
@@ -151,18 +148,22 @@ public class A2 {
             System.out.println("\n10 Most Frequent");
             Collections.sort(tokens, MostFrequentEnglishWords);
             for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                Token t = tokens.get(i); System.out.println(t + " : " + t.getCount());
+                Token t = tokens.get(i).getData(); System.out.println(t + " : " + t.getCount());
             }
 
             System.out.println("\n10 Least Frequent");
             Collections.sort(tokens, LeastFrequentEnglishWords);
             for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                Token t = tokens.get(i); System.out.println(t + " : " + t.getCount());
+                Token t = tokens.get(i).getData(); System.out.println(t + " : " + t.getCount());
             }
 
             System.out.println("\nAll");
             Collections.sort(tokens); // Natural sort
-            for (Token t : tokens) System.out.println(t + " : " + t.getCount());
+            Token t;
+            for (int i = 0; i < tokens.size(); i++) {
+                t = tokens.get(i).getData();
+                System.out.println(t + " : " + t.getCount());
+            }
         }
     }
 }
