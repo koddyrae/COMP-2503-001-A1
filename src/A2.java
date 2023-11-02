@@ -66,7 +66,7 @@ public class A2 {
             /*
              * When the size of the tokensAlphabetical array list (the dictionary) is zero,
              * unconditionally add the word to the dictionary; thereafter, all
-             * tokensAlphabetical must be compared against the growing dictionary to
+             * tokens must be compared against the growing dictionary to
              * determine if they are already present or not.
              */
             if (tokensAlphabetical.size() == 0) {
@@ -93,12 +93,12 @@ public class A2 {
                  */
                 if (existingToken.toString().equals(maybeNewWord)) {
                     existingToken.incrementCount();
-                    continue Tokenize; // Avoid the next statement in this case,
-                                       // it would be redundant.
+                    continue Tokenize;
                 }
             }
 
             // Finally, if we should add the word to the dictionary we do so.
+            System.out.println("DEBUG");
             tokensAlphabetical.addInOrder(new Node<Token>(new Token(maybeNewWord)), Token.Alphabetical);
         }
 
