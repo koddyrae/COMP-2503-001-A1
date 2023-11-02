@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Token implements Comparable<Token> {
@@ -56,8 +55,13 @@ public class Token implements Comparable<Token> {
         return this.str.compareTo(t.toString());
     }
 
-    // This comparator will cause Collections.Sort to sort less frequent words first.
-    public static Comparator<Token> LeastFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
+    public static Comparator<Token> Alphabetical = (Token tokenOne, Token tokenTwo) -> {
+        return tokenOne.compareTo(tokenTwo);
+    }; // End of assigned lambda expression.
+
+    // This comparator will cause Collections.Sort to sort less frequent words
+    // first.
+    public static Comparator<Token> IncreasingFrequency = (Token tokenOne, Token tokenTwo) -> {
         int difference = tokenOne.getCount() - tokenTwo.getCount();
         return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : difference);
     }; // End of assigned lambda expression.
@@ -69,7 +73,7 @@ public class Token implements Comparable<Token> {
      * with a higher frequency will return a positive difference, so
      * to be sorted first the magnitude needs to be inverted.
      */
-    public static Comparator<Token> MostFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
+    public static Comparator<Token> DecreasingFrequency = (Token tokenOne, Token tokenTwo) -> {
         int difference = tokenOne.getCount() - tokenTwo.getCount();
         return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : -difference);
     }; // End of assigned lambda expression.

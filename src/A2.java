@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import java.util.Comparator;
-import java.util.Collections;
 
 /**
  * @author Bryce Carson
@@ -101,19 +99,21 @@ public class A2 {
             }
 
             // Finally, if we should add the word to the dictionary we do so.
-            tokensAlphabetical.addInOrder(new Node<Token>(new Token(maybeNewWord)),
-                    (t1, t2) -> {
-                return t1.compareTo(t2.getData().toString());
-            });
+            tokensAlphabetical.addInOrder(new Node<Token>(new Token(maybeNewWord)), Token.Alphabetical);
         }
 
+        // Get the first node.
         Node<Token> currentNode = tokensAlphabetical.get(0);
 
-        // Sort the second list in decreasing order of frequency.
-        while(currentNode.getNext() != null) {
-            tokensLowestFrequency.addInOrder(currentNode, Token.LeastFrequentEnglishWords);
-            tokensHighestFrequency.addInOrder(currentNode, Token.MostFrequentEnglishWords);
+        // Create the other two lists in order of increasing and decreasing frequency.
+        while(currentNode != null) {
+            tokensLowestFrequency.addInOrder(currentNode, Token.IncreasingFrequency);
+            tokensHighestFrequency.addInOrder(currentNode, Token.DecreasingFrequency);
+
+            currentNode = currentNode.getNext();
         }
+
+        s.close();
     }
 
     public static void main(String[] args) {
