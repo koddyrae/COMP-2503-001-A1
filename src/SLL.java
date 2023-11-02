@@ -1,9 +1,19 @@
-import java.util.EmptyStackException;
+import com.sun.jdi.InterfaceType;
 
-public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
+import java.util.*;
+
+public class SLL<T extends Comparable<T>> {
   private Node<T> head;
   private Node<T> tail;
   private int size = 0;
+
+  public SLL(SLL list) {
+      head = list.get(0);
+      size = list.size();
+      tail = list.get(size - 1);
+  }
+
+  public SLL() { }
 
   public int size() {
 	  return this.size;
@@ -21,40 +31,38 @@ public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
       }
   }
 
-  public void addHead(T t) {
-    Node<T> n = new Node<>(t);
-    // The list is empty, so both the head and tail are made to be the first
-    // node in the list.
-    if(head == null) { head = n; tail = n; return; }
+    public void addHead(Node<T> n) {
+        // The list is empty, so both the head and tail are made to be the first
+        // node in the list.
+        if (head == null) {
+            head = n;
+            tail = n;
+            return;
+        }
 
-    // Update the head, but do not update the tail. The tail is already properly
-    // set if there is at least one node in the list.
-    Node<T> o = head;
-    head = n;
-    n.setNext(o);
-    size++;
-  }
-
-  public void addTail(T t) {
-      Node<T> n = new Node<>(t);
-    // The list is empty, so both the head and tail are made to be the first
-    // node in the list.
-    if(head == null) {
+        // Update the head, but do not update the tail. The tail is already properly
+        // set if there is at least one node in the list.
+        Node<T> o = head;
         head = n;
-        tail = n;
-    } else {
-        // Update the tail of the list.
-        tail.setNext(n);
-        tail = n;
+        n.setNext(o);
+        size++;
     }
-    size++;
-  }
 
-  /**
-   * To add nodes in order, they must be naturally sorted upon insertion.
-   */
-  public void addInOrder(T t) {
-    Node<T> n = new Node<>(t);
+    public void addTail(Node<T> n) {
+        // The list is empty, so both the head and tail are made to be the first
+        // node in the list.
+        if (head == null) {
+            head = n;
+            tail = n;
+        } else {
+            // Update the tail of the list.
+            tail.setNext(n);
+            tail = n;
+        }
+        size++;
+    }
+
+    public void addInOrder(Node<T> n, Comparator<T> comparator) {
     // Case 1: empty/headless lists.
     if(head == null) {
       head = n;
@@ -64,10 +72,10 @@ public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
     }
 
     // Case 2: a new head.
-    if(n.getData().compareTo(head.getData()) <= -1) { addHead(t); size++; return; }
+    if(comparator.compare(n.getData(), head.getData()) <= -1) { addHead(n); size++; return; }
 
     // Case 3: a new tail.
-    if(n.getData().compareTo(tail.getData()) >= 1) { addTail(t); size++; return; }
+    if(comparator.compare(n.getData(), tail.getData()) >= 1) { addTail(n); size++; return; }
 
     // Case 4: a new interior element, to be added in order.
     Node<T> priorNode = head, currentNode = head;
@@ -75,7 +83,7 @@ public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
 
     // Iterate through the nodes until the test returns -1, indicating the next
     // element is greater than this one.
-    while(nodeData.compareTo(currentNode.getData()) >= 0) {
+    while(comparator.compare(nodeData, currentNode.getData()) >= 0) {
       priorNode = currentNode;
       currentNode = currentNode.getNext();
 
@@ -87,7 +95,17 @@ public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
     priorNode.setNext(n);
     n.setNext(currentNode);
     size++;
-  }
+    }
+
+    public void addHead(T t) {
+        Node<T> n = new Node<>(t);
+        addHead(n);
+    }
+
+    public void addTail(T t) {
+        Node<T> n = new Node<>(t);
+        addTail(n);
+    }
 
   public void printList() {
     System.out.println();
@@ -106,10 +124,9 @@ public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
   /**
    * Find the first node in the list with the matching T key.
    */
-  public Node<T> find(T key) throws IllegalStateException {
+  public Node<T> find(T key) {
     if(head == null)
-        throw new
-            IllegalStateException("There's naught to be found in empty lists.");
+        return null;
 
     // Iterate through the nodes until either null is returned or the key is
     // found.
@@ -153,13 +170,4 @@ public class SLL<T extends Comparable<T>> implements Comparable<Node<T>> {
     // This code is only reached if there was no node found with KEY.
     return null;
   }
-
-    /*
-     * Nodes are not very special, so a standard comparison of the data in the Node is
-     * sufficient. Call the Node data's compareTo method.
-     */
-    @Override
-    public int compareTo(Node n) {
-        return n.getData().compareTo(n.getNext().getData());
-    }
 }

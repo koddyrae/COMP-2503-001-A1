@@ -9,27 +9,13 @@ public class A2 {
     // FIELDS
     private static int countOfStopWords = 0;
     private static int totalWords = 0;
-    private static SLL<Token> tokens = new SLL<>();
+    // Create the three lists that will be used to complete this assignment.
+    private static SLL<Token>
+        tokensAlphabetical = new SLL<>(),
+        tokensHighestFrequency = new SLL<>(),
+        tokensLowestFrequency = new SLL<>();
 
-    // This comparitor will cause Collections.Sort to sort less frequent words first.
-    private static Comparator<Token> LeastFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
-        int difference = tokenOne.getCount() - tokenTwo.getCount();
-        return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : difference);
-    }; // End of assigned lambda expression.
-
-    // This comparitor will cause Collections.Sort to sort more frequent words first.
-    /**
-     * Because more frequent words should be sorted /before/ less
-     * frequent words, the difference should be negative. A word
-     * with a higher frequency will return a positive difference, so
-     * to be sorted first the magnitude needs to be inverted.
-     */
-    private static Comparator<Token> MostFrequentEnglishWords = (Token tokenOne, Token tokenTwo) -> {
-        int difference = tokenOne.getCount() - tokenTwo.getCount();
-        return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : -difference);
-    }; // End of assigned lambda expression.
-
-    // "Stop Words" provided by the intstructor.
+    // "Stop Words" provided by the instructor.
     private static final String[] stopWords = {
             "a",     "about", "all",   "am",
             "an",    "and",   "any",   "are",
@@ -78,24 +64,26 @@ public class A2 {
                 }
             }
 
+            Token maybeNewToken = new Token(maybeNewWord);
             /*
-             * When the size of the tokens array list (the dictionary) is zero,
+             * When the size of the tokensAlphabetical array list (the dictionary) is zero,
              * unconditionally add the word to the dictionary; thereafter, all
-             * tokens must be compared against the growing dictionary to
+             * tokensAlphabetical must be compared against the growing dictionary to
              * determine if they are already present or not.
              */
-            if (tokens.size() == 0) {
-                tokens.addInOrder(new Token(maybeNewWord));
+            if (tokensAlphabetical.size() == 0) {
+                // An exception to the rule that we need to add the tokens in order. There is no ordering a single element.
+                tokensAlphabetical.addHead(maybeNewToken);
                 continue Tokenize;
             }
 
             /*
-             * Iterate over the dictionary's current size, incrementing the
+             * Iterate over the list's current size, incrementing the
              * count of each unique word if it is already found in the
              * dictionary.
              */
-            for (int i = 0; i < tokens.size(); i++) {
-                Token existingToken = tokens.get(i).getData();
+            for (int i = 0; i < tokensAlphabetical.size(); i++) {
+                Token existingToken = tokensAlphabetical.get(i).getData();
 
                 /*
                  * In the event that we encounter an existing token equivalent
@@ -113,7 +101,18 @@ public class A2 {
             }
 
             // Finally, if we should add the word to the dictionary we do so.
-            tokens.addInOrder(new Token(maybeNewWord));
+            tokensAlphabetical.addInOrder(new Node<Token>(new Token(maybeNewWord)),
+                    (t1, t2) -> {
+                return t1.compareTo(t2.getData().toString());
+            });
+        }
+
+        Node<Token> currentNode = tokensAlphabetical.get(0);
+
+        // Sort the second list in decreasing order of frequency.
+        while(currentNode.getNext() != null) {
+            tokensLowestFrequency.addInOrder(currentNode, Token.LeastFrequentEnglishWords);
+            tokensHighestFrequency.addInOrder(currentNode, Token.MostFrequentEnglishWords);
         }
     }
 
@@ -138,30 +137,27 @@ public class A2 {
          * word2 : #frequency
          * word3 : #frequency
          *       …
-         * wordn : #frequency
+         * word_n : #frequency
          */
         System.out.println("Total Words: " + totalWords);
         System.out.println("Unique Words: " + Token.countUniqueWords);
         System.out.println("Stop Words: " + countOfStopWords);
 
-        if (tokens.size() > 0) {
+        if (tokensAlphabetical.size() > 0) {
             System.out.println("\n10 Most Frequent");
-            Collections.sort(tokens, MostFrequentEnglishWords);
-            for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                Token t = tokens.get(i).getData(); System.out.println(t + " : " + t.getCount());
+            for (int i = 0; i < 10 && i < tokensHighestFrequency.size(); i++) {
+                Token t = tokensHighestFrequency.get(i).getData(); System.out.println(t + " : " + t.getCount());
             }
 
             System.out.println("\n10 Least Frequent");
-            Collections.sort(tokens, LeastFrequentEnglishWords);
-            for (int i = 0; i < 10 && i < tokens.size(); i++) {
-                Token t = tokens.get(i).getData(); System.out.println(t + " : " + t.getCount());
+            for (int i = 0; i < 10 && i < tokensLowestFrequency.size(); i++) {
+                Token t = tokensLowestFrequency.get(i).getData(); System.out.println(t + " : " + t.getCount());
             }
 
             System.out.println("\nAll");
-            Collections.sort(tokens); // Natural sort
             Token t;
-            for (int i = 0; i < tokens.size(); i++) {
-                t = tokens.get(i).getData();
+            for (int i = 0; i < tokensAlphabetical.size(); i++) {
+                t = tokensAlphabetical.get(i).getData();
                 System.out.println(t + " : " + t.getCount());
             }
         }

@@ -6,6 +6,7 @@ public class Node<T extends Comparable<T>> {
     public T getData() {
         return this.data;
     }
+
     public Node<T> getNext() {
         return this.next;
     }
@@ -13,7 +14,10 @@ public class Node<T extends Comparable<T>> {
     public void setNext(T t) {
         next = new Node<T>(t);
     }
-    public void setNext(Node<T> n) {}
+
+    public void setNext(Node<T> n) {
+    }
+
     public void unsetNext() {
         this.next = null;
     }
@@ -21,4 +25,8 @@ public class Node<T extends Comparable<T>> {
     public Node(T t) {
         this.data = t;
     }
+
+    public int compareTo(T t) {
+        return data.compareTo(t);
+    };
 }
