@@ -102,7 +102,6 @@ public class A2 {
         }
 
         // Get the first node.
-        System.out.println("Populating the other two lists.");
         Node<Token> currentNode = tokensAlphabetical.get(0);
 
         // Create the other two lists in order of increasing and decreasing frequency.
