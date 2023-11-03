@@ -9,7 +9,6 @@ public class SLL<T extends Comparable<T>> {
         return this.size;
     }
 
-    // FIXME
     public Node<T> get(int i) {
         if ((i < 0) || (i > (this.size - 1))) {
             throw new IllegalArgumentException("Index i is outside of legal bounds for the singly-linked list.");
