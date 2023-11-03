@@ -41,6 +41,9 @@ public class A2 {
     };
 
     // METHODS
+    /**
+     * Initializes the A2 class, processes the input, and calculates word frequencies.
+     */
     public A2() {
         Scanner s = new Scanner(System.in);
 
@@ -116,7 +119,10 @@ public class A2 {
 
         s.close();
     }
-
+     /**
+     * Main method to analyze word frequencies and print results.
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         // Initialize totalWords, Token.countUniqueWords, and countOfStopWords.
         new A2();
