@@ -125,7 +125,8 @@ public class A2 {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-        // Initializes totalWords, Token.countUniqueWords, and countOfStopWords.
+        // Initializes object that takes care of all processing and calculations which is then
+        // used by the main class in printing
         new A2();
 
         // Generates a printed listing following this format.
