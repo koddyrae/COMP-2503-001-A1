@@ -15,7 +15,7 @@ public class SLL<T extends Comparable<T>> {
         }
 
         Node<T> currentNode = head;
-        while((currentNode.getNext() != null) && (i > 0)) {
+        while(i > 0) {
             currentNode = currentNode.getNext();
             --i;
         }
