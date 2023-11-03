@@ -2,7 +2,7 @@
 /**
  * A generic class representing a node in a singly-linked list
  *
- * @param <T> The type of data that this node holds, which must be comparable.
+ * @param <T> The type of data that this node holds, which must also extend comparable.
  */
 public class Node<T extends Comparable<T>> {
     private T data = null;

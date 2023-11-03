@@ -2,11 +2,13 @@ import java.util.*;
 /**
  * A generic class representing a singly-linked list.
  *
- * @param <T> The type of elements in the list, which must be comparable.
+ * @param <T> The type of elements in the list, which must also extend comparable.
  */
 public class SLL<T extends Comparable<T>> {
     private Node<T> head;
     private Node<T> tail;
+
+    //Size gets incremented whenever an add operation is called
     private int size = 0;
 
     /**

@@ -7,13 +7,13 @@ public class A2 {
     // FIELDS
     private static int countOfStopWords = 0;
     private static int totalWords = 0;
-    // Create the three lists that will be used to complete this assignment.
+    // Create the three custom singly linked lists that will be used to complete this assignment.
     private static SLL<Token>
         tokensAlphabetical = new SLL<>(),
         tokensHighestFrequency = new SLL<>(),
         tokensLowestFrequency = new SLL<>();
 
-    // "Stop Words" provided by the instructor.
+    // "Stop Words" array provided by the instructor.
     private static final String[] stopWords = {
             "a",     "about", "all",   "am",
             "an",    "and",   "any",   "are",
@@ -116,7 +116,8 @@ public class A2 {
 
             currentNode = currentNode.getNext();
         }
-
+        
+        //Closes the scanner object 
         s.close();
     }
      /**
@@ -124,10 +125,10 @@ public class A2 {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-        // Initialize totalWords, Token.countUniqueWords, and countOfStopWords.
+        // Initializes totalWords, Token.countUniqueWords, and countOfStopWords.
         new A2();
 
-        // Generate a printed listing following this format.
+        // Generates a printed listing following this format.
         /*
          * Total Words: #words
          * Unique Words: #words

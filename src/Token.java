@@ -9,11 +9,12 @@ public class Token implements Comparable<Token> {
      * instance.
      */
     public static int countUniqueWords = 0;
-
     private int count = 1;
     private String str;
+
     /**
      * Constructs a new Token with the given string.
+     * Also increments the count of unique words when called
      *
      * @param s The text string of the token.
      */
@@ -87,6 +88,9 @@ public class Token implements Comparable<Token> {
         return ((difference == 0) ? tokenOne.compareTo(tokenTwo) : -difference);
     }; // End of assigned lambda expression.
 
+    /**
+     * Overridden toString() method to return the data of the token
+     */
     @Override
     public String toString() {
         return this.str;
