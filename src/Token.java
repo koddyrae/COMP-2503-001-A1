@@ -1,5 +1,7 @@
 import java.util.Comparator;
-
+/**
+ * Represents a token with a text string and a count of its occurrences.
+ */
 public class Token implements Comparable<Token> {
 
     /*
@@ -10,16 +12,28 @@ public class Token implements Comparable<Token> {
 
     private int count = 1;
     private String str;
-
+    /**
+     * Constructs a new Token with the given string.
+     *
+     * @param s The text string of the token.
+     */
     public Token(String s) {
         ++countUniqueWords;
         this.str = s;
     }
 
+    /**
+     * Gets the count of occurrences for this token.
+     *
+     * @return The count of occurrences.
+     */
     public int getCount() {
         return this.count;
     }
 
+    /**
+     * Increments the count of occurrences for this token.
+     */
     public void incrementCount() {
         ++this.count;
     }
