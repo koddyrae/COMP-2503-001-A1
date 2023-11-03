@@ -56,7 +56,6 @@ public class SLL<T extends Comparable<T>> {
 
     public void addInOrder(Node<T> n, Comparator<T> comparator) {
         // Case 1: empty/headless lists.
-        // The calculation is size less one because size was just incremented.
         if (size == 0) {
             addHead(n.getData());
             return;
