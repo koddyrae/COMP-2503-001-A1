@@ -32,18 +32,14 @@ public class Token implements Comparable<Token> {
          */
         if (obj == null) {
             return false;
-        } else if (this == obj) {
+        } else // Content comparison := aString.equals(anotherString).
+            if (this == obj) {
             /*
              * Reflexive x.equals(x) := true; ie, an object is equal to
              * itself.
              */
             return true;
-        } else if (this.toString().equals(obj.toString())) {
-            // Content comparison := aString.equals(anotherString).
-            return true;
-        } else {
-            return false;
-        }
+        } else return this.str.equals(obj.toString());
     }
 
     /*
@@ -55,9 +51,8 @@ public class Token implements Comparable<Token> {
         return this.str.compareTo(t.toString());
     }
 
-    public static Comparator<Token> Alphabetical = (Token tokenOne, Token tokenTwo) -> {
-        return tokenOne.compareTo(tokenTwo);
-    }; // End of assigned lambda expression.
+    public static Comparator<Token> Alphabetical = Comparator.naturalOrder(); // IntelliJ-suggested improvement over the previous code.
+    // The previous code was a lambda which called compareTo.
 
     // This comparator will cause Collections.Sort to sort less frequent words
     // first.

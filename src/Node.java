@@ -1,7 +1,7 @@
 // Only permit comparable types.
 public class Node<T extends Comparable<T>> {
     private T data = null;
-    private Node<T> next = null;
+    private Node<T> next;
 
     public T getData() {
         return this.data;
@@ -16,10 +16,7 @@ public class Node<T extends Comparable<T>> {
     }
 
     public void setNext(Node<T> n) {
-    }
-
-    public void unsetNext() {
-        this.next = null;
+        this.next = n;
     }
 
     public Node(T t) {
@@ -28,5 +25,5 @@ public class Node<T extends Comparable<T>> {
 
     public int compareTo(T t) {
         return data.compareTo(t);
-    };
+    }
 }

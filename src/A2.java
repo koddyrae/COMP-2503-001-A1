@@ -80,8 +80,8 @@ public class A2 {
              * count of each unique word if it is already found in the
              * dictionary.
              */
-            for (int i = 0; i < tokensAlphabetical.size(); i++) {
-                Token existingToken = tokensAlphabetical.get(i).getData();
+            for (int tokenIndex = 0; tokenIndex < tokensAlphabetical.size(); tokenIndex++) {
+                Token existingToken = tokensAlphabetical.get(tokenIndex).getData();
 
                 /*
                  * In the event that we encounter an existing token equivalent
@@ -98,11 +98,11 @@ public class A2 {
             }
 
             // Finally, if we should add the word to the dictionary we do so.
-            System.out.println("DEBUG");
             tokensAlphabetical.addInOrder(new Node<Token>(new Token(maybeNewWord)), Token.Alphabetical);
         }
 
         // Get the first node.
+        System.out.println("Populating the other two lists.");
         Node<Token> currentNode = tokensAlphabetical.get(0);
 
         // Create the other two lists in order of increasing and decreasing frequency.
