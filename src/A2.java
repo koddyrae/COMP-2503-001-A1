@@ -97,8 +97,10 @@ public class A2 {
                 }
             }
 
-            // Finally, if we should add the word to the dictionary we do so.
-            tokensAlphabetical.addInOrder(new Node<Token>(new Token(maybeNewWord)), Token.Alphabetical);
+            // What may be a new token is found to certainly be a new token, so
+            // it is wrapped in a node and that node is added to the list in the
+            // correct position.
+            tokensAlphabetical.addInOrder(new Node<Token>(maybeNewToken), Token.Alphabetical);
         }
 
         // Get the first node.
