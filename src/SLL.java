@@ -11,7 +11,7 @@ public class SLL<T extends Comparable<T>> {
 
     public Node<T> get(int i) {
         if ((i < 0) || (i > (this.size - 1))) {
-            throw new IllegalArgumentException("Index i is outside of legal bounds for the singly-linked list.");
+            throw new IndexOutOfBoundsException("Index i is outside of legal bounds for the singly-linked list.");
         }
 
         Node<T> currentNode = head;
@@ -55,11 +55,9 @@ public class SLL<T extends Comparable<T>> {
     }
 
     public void addInOrder(Node<T> n, Comparator<T> comparator) {
-        size++;
-
         // Case 1: empty/headless lists.
         // The calculation is size less one because size was just incremented.
-        if ((size - 1) == 0) {
+        if (size == 0) {
             addHead(n.getData());
             return;
         }
@@ -91,5 +89,6 @@ public class SLL<T extends Comparable<T>> {
         // current one.
         priorNode.setNext(new Node<>(n.getData()));
         priorNode.getNext().setNext(currentNode);
+        size++;
     }
 }
